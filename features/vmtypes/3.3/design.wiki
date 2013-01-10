@@ -1,0 +1,69 @@
+
+= Overview =
+
+This design will address an API for reading vmtypes only.
+
+In trying to satisfy;
+
+* MVP includes an admin API for controlling vm type definitions
+
+The following might be implemented to test this feature;
+
+* MVP includes a euca-describe-vmtypes
+
+== Out of Scope ==
+
+We won't be addressing any modification of vmtypes via an API.
+
+== Feature Dependencies ==
+
+None.
+
+= Analysis =
+
+== Access ==
+
+An API for reading vmtypes could be provided in 2 different ways.
+# un-authenticated REST call
+# authenticated REST call
+
+The later option is probably best since the read feature will be supplimented with create/delete/modify operations in the future. By implementing all of these as authenticated calls, ACLs will can be applied to each call. For example, any authenticated user could read vmtypes, but only privileged uses would have create/delete/modify access.
+
+== Data ==
+
+The values supplied by this call would be the same as those showed and modifyable in the admin console. (eucalyptus_vmtypes?)
+
+= Design =
+
+== Operations ==
+
+==== DescribeVMTypes ====
+
+Return a structured list of vmtype names, disk size, memory size and core count.
+
+= Upgrade =
+
+No upgrade implications.
+
+= Packaging =
+
+No packaging requirements.
+
+= Documentation =
+
+We don't document euca-specific APIs yet, so no impact on docs.
+
+= Security =
+
+This call will use standard request signing code and is read-only. No impact on security forseen.
+
+= Testing =
+
+Testing should validate that values returned by this call are consistent with values shown in admin console for vmtypes. After making changes to vmtypes defs in the admin console, this call should return the updated values.
+
+= References =
+
+* [https://eucalyptus.atlassian.net/browse/EUCA-4374 EUCA-4374 (atlassian.net)]
+
+----
+[[tag:rls-3.3]]
